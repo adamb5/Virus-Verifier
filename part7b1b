@@ -1,0 +1,67 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
+
+def f(x):
+    beta =0.75
+    mu = 1/(83*365)
+    gamma =1/8
+    epsilon = 1/3
+    alpha = 0.006
+    xs=x[0]
+    xe=x[1]
+    xi=x[2]
+    xr=x[3]  
+    xm = xs + xe + xi + xr
+    dS = - beta * xs * xi / xm - mu * xs + mu * xm
+    dE =   beta * xs * xi / xm - (mu + epsilon) * xe 
+    dI =   epsilon * xe - (gamma + mu + epsilon) * xi 
+    dR =   gamma * xi - mu * xr 
+    return np.array([dS, dE, dI, dR], float)
+
+
+
+x = np.array([10e6-20000-1-0,20000,1,0], float) 
+
+nstep = 3000
+t = np.linspace(0., 150., nstep)
+h = t[1] - t[0]
+n = 1000
+
+
+xs = np.zeros(nstep)
+xe = np.zeros(nstep)
+xi = np.zeros(nstep)
+xr = np.zeros(nstep)
+
+xfs = np.zeros(nstep)
+xfe = np.zeros(nstep)
+xfi = np.zeros(nstep)
+xfr = np.zeros(nstep)
+
+
+for i in range(nstep):
+    xs[i]=x[0]
+    xe[i]=x[1]
+    xi[i]=x[2]
+    xr[i]=x[3]
+    k1=h*f(x)
+    k2=h*f(x+0.5*k1)    
+    x+=k2
+        
+    xf = f(x)
+    xfs[i] = xf[0]
+    xfe[i] = xf[1]
+    xfi[i] = xf[2]
+    xfr[i] = xf[3]
+
+
+
+xd = -(xfs+xfe+xfi+xfr)
+plt.plot(t,xr/180000,label="death rate ")
+plt.axhline(0, color='black')
+plt.axvline(0, color='black')
+plt.legend(loc="best")
+plt.xlabel(r'$t$ (days)',fontsize=20) 
+plt.ylabel(r'dead people',fontsize=20)
+plt.show()
