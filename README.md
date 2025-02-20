@@ -1,6 +1,6 @@
 # VirusVerif
 
-Hello! This is a virus verifying project that I have developed using python, matplotlib, and numPy. Below, I will lay out the foundation of the project as well as relevant variables.
+This is a virus verifying project that I have developed using python, matplotlib, and numPy. Below, I will lay out the foundation of the project as well as relevant variables.
 
 The SEIR model splits out the infected population into two sub-groups, those who are infected but not yet contagious and those who are infectious. The SEIR model is very similar to the SIR model, but susceptible people who become infected first move into the exposed group (E). An additional parameter,  𝜖 , controls how long a person stays in the exposed group before they move into the infectious state.
 
